@@ -82,15 +82,18 @@ The 0's and *'s denote on what interval to run the script, more info [here](http
 ##### Systemd timer
 This method is more involved, but provides greater configuration and control. First create a systemd service file called `pybackup.service` in `/etc/systemd/system`:
 ```
-[Unit]
 Description=Run PyBackup
+Wants=pybackup.timer
 
 [Service]
 Type=oneshot
-WorkingDirectory=/path/to/pybackup
-ExecStart=venv/bin/python backup.py
+WorkingDirectory=/home/pstet/code/pybackup
+ExecStart=/home/pstet/code/pybackup/venv/bin/python backup.py
 StandardOutput=journal
 StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 Then create a systemd timer file called `pybackup.timer` in `/etc/systemd/system`:

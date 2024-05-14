@@ -3,7 +3,6 @@ docker-dir: /home/pstet/docker-sample/
 
 # Directory names of docker compose stacks to ignore
 docker-backup-ignore:
-  - homarr
 
 # Non-docker directories to backup
 # Format: name: path

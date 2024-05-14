@@ -37,6 +37,9 @@ def backup_docker_dir(docker_dir: str, ignore: list[str], target_dir: str):
     if not os.path.isdir(docker_dir):
         raise FileNotFoundError(f"No such file or directory: {docker_dir}")
 
+    if ignore is None:
+        ignore = []
+
     target_dir = os.path.join(target_dir, "docker")
     os.mkdir(target_dir)
     print(f"Backup up Docker Compose stacks in {docker_dir}")
@@ -70,15 +73,18 @@ else:
     print("No docker directory given, skipping.")
 
 
-for dir_name, path in config["backup-dirs"].items():
-    path = os.path.expanduser(path)
-    if not os.path.isdir(path):
-        raise FileNotFoundError(f"{path} is not a directory.")
+backup_dirs = config["backup-dirs"]
 
-    backup_path = os.path.join(target_dir, f"{dir_name}.tar.{COMPRESS}")
+if backup_dirs is not None:
+    for dir_name, path in backup_dirs.items():
+        path = os.path.expanduser(path)
+        if not os.path.isdir(path):
+            raise FileNotFoundError(f"{path} is not a directory.")
 
-    with tarfile.open(backup_path, f"w:{COMPRESS}") as tar:
-        tar.add(path)
+        backup_path = os.path.join(target_dir, f"{dir_name}.tar.{COMPRESS}")
+
+        with tarfile.open(backup_path, f"w:{COMPRESS}") as tar:
+            tar.add(path)
 
 
 for file in os.listdir(target_backup_dir):

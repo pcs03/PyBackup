@@ -1,0 +1,22 @@
+# Directory containing docker-compose stacks
+docker-dir: /home/pstet/docker-sample/
+
+# Directory names of docker compose stacks to ignore
+docker-backup-ignore:
+  - homarr
+
+# Non-docker directories to backup
+# Format: name: path
+# Name is used for the name of the compressed archive
+backup-dirs:
+  documents: ~/Documents/
+  pictures: ~/Pictures/
+
+
+# Directory to save backups
+target-dir: /home/pstet/docker-test
+
+options:
+  compress: gz # gz, xz
+  compress-level: 1 # 1 - 9
+  retention: 7 # Retention of previous backups in days
